@@ -1,0 +1,48 @@
+name: test
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "**.ts"
+
+jobs:
+  test:
+    runs-on: ubuntu-22.04
+
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+      cancel-in-progress: true
+
+    strategy:
+      matrix:
+        version: [18, 20, 22, 'bun']
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        if: matrix.version != 'bun'
+        with:
+          node-version: ${{ matrix.version }}
+      
+      - uses: oven-sh/setup-bun@v2
+        if: matrix.version == 'bun'
+        with:
+          bun-version: latest
+      
+      - name: Install dependencies
+        if: matrix.version != 'bun'
+        run: npm ci
+      
+      - name: Install dependencies
+        if: matrix.version == 'bun'
+        run: bun install
+      
+      - name: Type check
+        run: bun run type-check
+      
+      - name: Test
+        run: bun run test:coverage || npm run test:coverage
