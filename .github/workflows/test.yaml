@@ -11,10 +11,6 @@ jobs:
   test:
     runs-on: ubuntu-22.04
 
-    concurrency:
-      group: ${{ github.workflow }}-${{ github.ref }}
-      cancel-in-progress: true
-
     strategy:
       matrix:
         version: [18, 20, 22, 'bun']
