@@ -31,11 +31,11 @@ jobs:
       
       - name: Install dependencies
         if: matrix.version != 'bun'
-        run: npm ci
+        run: npm install
       
       - name: Install dependencies
         if: matrix.version == 'bun'
-        run: bun install
+        run: bun install --frozen-lockfile
       
       - name: Type check
         run: bun run type-check
