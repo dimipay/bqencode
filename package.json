@@ -1,8 +1,25 @@
 {
-  "name": "bqencode",
-  "module": "index.ts",
+  "name": "@dimipay/bqencode",
   "version": "0.1.0",
+  "description": "Binary Encoding for QR Codes",
+  "license": "MIT",
+  "keywords": [
+    "base10",
+    "base45",
+    "base94",
+    "qr",
+    "encode"
+  ],
+  "homepage": "https://github.com/dimipay/bqencode",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dimipay/bqencode.git"
+  },
+  "module": "dist/index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "type": "module",
+  "files": ["dist"],
   "scripts": {
     "build": "rm -rf dist && bun ./build.ts",
     "type-check": "tsc --noEmit",
