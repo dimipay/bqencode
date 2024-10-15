@@ -8,6 +8,10 @@ class Base94 extends Base {
 	 * @returns {string}
 	 */
 	public encode(input: string | Buffer): string {
+		if (input.length === 0) {
+			return "";
+		}
+
 		let result = "";
 		const buf = Buffer.isBuffer(input) ? input : Buffer.from(input);
 

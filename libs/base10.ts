@@ -10,8 +10,13 @@ class Base10 extends Base {
 	 * @return {string}
 	 */
 	public encode(input: string | Buffer): string {
+		if (input.length === 0) {
+			return "";
+		}
+
 		let result = "";
 		const buf = Buffer.isBuffer(input) ? input : Buffer.from(input);
+
 		for (let i = 0; i < buf.length; i += 7) {
 			if (i + 6 < buf.length) {
 				const val = readBigInt56BE(buf, i);

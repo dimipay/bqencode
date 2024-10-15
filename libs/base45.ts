@@ -10,8 +10,13 @@ class Base45 extends Base {
 	 * @param input {string | Buffer}
 	 */
 	public encode(input: string | Buffer): string {
+		if (input.length === 0) {
+			return "";
+		}
+
 		let result = "";
 		const buf = Buffer.isBuffer(input) ? input : Buffer.from(input);
+
 		for (let i = 0; i < buf.length; i += 2) {
 			if (i + 1 < buf.length) {
 				let val = buf.readUint16BE(i);
