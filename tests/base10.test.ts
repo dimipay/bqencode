@@ -1,3 +1,4 @@
+import crypto from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { InvalidEncodingError, base10 } from "..";
 
@@ -34,6 +35,18 @@ describe("base10", () => {
 	it.each(cases)("decode %#", (input, result) => {
 		const bufInput = Buffer.isBuffer(input) ? input : Buffer.from(input);
 		expect(base10.decode(result)).toEqual(bufInput);
+	});
+
+	it("random test", () => {
+		for (let i = 0; i < 100; i++) {
+			const length = Math.floor(Math.random() * 100) + 1;
+			const input = crypto.randomBytes(length);
+
+			const encode = base10.encode(input);
+			const decode = base10.decode(encode);
+
+			expect(decode).toEqual(input);
+		}
 	});
 
 	it.each(["12D", "1212", "919581"])("throw when invalid base10: %s", (str) => {

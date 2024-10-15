@@ -1,3 +1,4 @@
+import crypto from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { InvalidEncodingError, base45 } from "..";
 
@@ -23,6 +24,18 @@ describe("base45", () => {
 	it.each(cases)("decode %s", (input, result) => {
 		const bufInput = Buffer.isBuffer(input) ? input : Buffer.from(input);
 		expect(base45.decode(result)).toEqual(bufInput);
+	});
+
+	it("random test", () => {
+		for (let i = 0; i < 100; i++) {
+			const length = Math.floor(Math.random() * 100) + 1;
+			const input = crypto.randomBytes(length);
+
+			const encode = base45.encode(input);
+			const decode = base45.decode(encode);
+
+			expect(decode).toEqual(input);
+		}
 	});
 
 	it.each([["AD!"], ["bb8"]])("throw when invalid base45: %S", (str) => {
