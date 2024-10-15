@@ -1,7 +1,4 @@
 export function readBigInt56BE(buf: Buffer, offset = 0): bigint {
-	if (buf[offset] === undefined || buf[offset + 6] === undefined) {
-		throw new RangeError("Cannot access beyond buffer length");
-	}
 	const first = buf.readUintBE(offset, 3);
 	const last = buf.readUint32BE(offset + 3);
 	return (BigInt(first) << 32n) | BigInt(last);
